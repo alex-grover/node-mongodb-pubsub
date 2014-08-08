@@ -9,12 +9,12 @@ mongo.MongoClient.prototype.publish = function(channel, message, callback) {
         throw new Error('The message argument to the publish command must be an object');
     }
 
-    if (callback !== undefined && typeof callback !== 'function') {
+    if (callback && typeof callback !== 'function') {
         throw new Error('The callback passed to the publish command must be a function');
     }
 
     this._db.command({publish: channel, message: message}, function(err, res) {
-        if (callback !== undefined) callback(err, res);
+        if (callback) callback(err, res);
     });
 }
 
@@ -64,13 +64,13 @@ mongo.MongoClient.prototype.unsubscribe = function(channel, callback) {
         throw new Error('The channel argument to the unsubscribe command must be a string');
     }
 
-    if (callback !== undefined && typeof callback !== 'function') {
+    if (callback && typeof callback !== 'function') {
         throw new Error('The callback passed to the unsubscribe command must be a function');
     }
 
     // map channel to subscription ID's
     // this.command({unsubscribe: [ID's]}, function(err, res) {
-    //     if (callback !== undefined) callback(err, res); 
+    //     if (callback) callback(err, res);
     // });
 }
 
