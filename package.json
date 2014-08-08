@@ -1,0 +1,10 @@
+{
+  "name": "node-mongodb-pubsub",
+  "version": "0.0.0",
+  "description": "Wrapper around the node-mongodb-native driver to allow use of pub/sub.",
+  "main": "index.js",
+  "author": "Alex Grover",
+  "dependencies": {
+    "mongodb": "^1.4.8"
+  }
+}
