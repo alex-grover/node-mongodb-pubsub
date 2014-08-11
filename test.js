@@ -3,25 +3,40 @@ var mongo = require('./index.js');
 var mongoClient = new mongo.MongoClient(new mongo.Server('localhost', 27017));
 mongoClient.open(function(err, mongoClient) {
 
-
-    // subscription object that receives 'message' event
-    var subscription;
-    mongoClient.subscribe('channel', function(_subscription) {
-        subscription = _subscription;
-        subscription.on('message', function(message) {
-            // handle message on 'channel'
-            console.log(JSON.stringify(message, null, 2));
-        });
+  // issue first subscribe
+  mongoClient.subscribe('channel', function(subscription) {
+    // register message handler
+    subscription.on('message', function(message) {
+      console.log(JSON.stringify(message, null, 2));
+      mongoClient.unsubscribe(subscription, function(err, res) {
+        processUnsub();
+      });
     });
 
-    subscription.id; // ObjectId
+    // issue second subscribe
+    mongoClient.subscribe('test', function(subscription) {
+      // register message handler
+      subscription.on('message', function(message) {
+        console.log(JSON.stringify(message, null, 2));
+        mongoClient.unsubscribe(subscription, function(err, res) {
+          processUnsub();
+        });
+      });
 
-    mongoClient.unsubscribe(subscription);
+      // publish messages to both channels
+      mongoClient.publish('channel', {hello: 'world'});
+      mongoClient.publish('test', {another: 'message'});
 
-
-    var i = 0;
-    setInterval(function() {
-        mongoClient.publish('channel', {number: i});
-        i++;
-    }, 2000);
+    });
+  });
 });
+
+// only exit after messages have been received on both channels
+var shouldExit = false;
+var processUnsub = function(){
+  if (shouldExit) {
+    process.exit(0);
+  } else {
+    shouldExit = true;
+  }
+}
