@@ -1,4 +1,4 @@
-var mongo = require('./index.js');
+var mongo = require('../index.js');
 
 var mongoClient = new mongo.MongoClient(new mongo.Server('localhost', 27017));
 mongoClient.open(function(err, mongoClient) {

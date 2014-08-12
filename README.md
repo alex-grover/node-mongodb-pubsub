@@ -23,21 +23,51 @@ npm install
 
 # Usage
 
-- To be updated
-
 ```javascript
 var mongo = require('mongodb-pubsub');
 
+// get an instance of MongoClient
 var mongoClient = new mongo.MongoClient(new mongo.Server('localhost', 27017));
 mongoClient.open(function(err, mongoClient) {
-  mongoClient.subscribe('channel', function(err, subscription) {
+  console.log('Opened a MongoClient connection.');
+
+  // now you can publish, subscribe, and unsubscribe
+  mongoClient.subscribe('test', function(err, subscription) {
+    console.log('Subscribed to \'test\'.');
+
+    // register event handlers on subscription object
     subscription.on('message', function(message) {
-      console.log(JSON.stringify(message, null, 2));
+
+      // message contains fields 'subscription', 'channel', and 'data'
+      console.log('Received message. ' + message.channel + ': ' + JSON.stringify(message.data, null, 2));
+
+      // unsubscribe after receiving a single message.
+      mongoClient.unsubscribe(subscription, function(err, res) {
+        console.log('Unsubscribed. All done!');
+        process.exit(0);
+      });
     });
-    mongoClient.publish('channel', {hello: 'world'});
+
+    // publish a message when the subscriber is ready
+    mongoClient.publish('test', {hello: 'world'}, function(err, res) {
+      console.log('Published message.');
+    });
+
   });
+
 });
+
+// Output:
+// - Opened a MongoClient connection.
+// - Subscribed to 'test'.
+// - Published message.
+// - Received message. test: {
+// -   "hello": "world"
+// - }
+// - Unsubscribed. All done!
 ```
+
+See `examples/basic.js` for a more in depth example with 2 subscriptions.
 
 # API Documentation
 
@@ -115,7 +145,7 @@ Arguments:
 
 # Other options
 
-## Poll timeout
+### Poll timeout
 
 Under the hood, MongoDB uses long polling to implement the Publish/Subscribe system. However, the driver handles the mechanics of polling the database and getting the correct messages to the correct subscriptions. TODO: document options and behavior of poll command
 <!-- For more information, please see the [documentation on poll options](https://github.com/10gen-interns/pubsub/blob/master/README.md#Polling). -->
