@@ -39,7 +39,8 @@ mongoClient.open(function(err, mongoClient) {
     subscription.on('message', function(message) {
 
       // message contains fields 'subscription', 'channel', and 'data'
-      console.log('Received message. ' + message.channel + ': ' + JSON.stringify(message.data, null, 2));
+      console.log('Received message. ' + message.channel +
+                  ': ' + JSON.stringify(message.data, null, 2));
 
       // unsubscribe after receiving a single message.
       mongoClient.unsubscribe(subscription, function(err, res) {
