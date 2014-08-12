@@ -2,9 +2,18 @@ var mongo = require('./index.js');
 
 var mongoClient = new mongo.MongoClient(new mongo.Server('localhost', 27017));
 mongoClient.open(function(err, mongoClient) {
+  if (err) {
+    console.log(err);
+    process.exit(1);
+  }
 
   // issue first subscribe
-  mongoClient.subscribe('channel', function(subscription) {
+  mongoClient.subscribe('channel', function(err, subscription) {
+    if (err) {
+      console.log(err);
+      process.exit(1);
+    }
+
     // register message handler
     subscription.on('message', function(message) {
       console.log(JSON.stringify(message, null, 2));
@@ -13,14 +22,29 @@ mongoClient.open(function(err, mongoClient) {
       });
     });
 
+    subscription.on('error', function(error) {
+      console.log(error);
+      process.exit(1);
+    });
+
     // issue second subscribe
-    mongoClient.subscribe('test', function(subscription) {
+    mongoClient.subscribe('test', function(err, subscription) {
+      if (err) {
+        console.log(err);
+        process.exit(1);
+      }
+
       // register message handler
       subscription.on('message', function(message) {
         console.log(JSON.stringify(message, null, 2));
         mongoClient.unsubscribe(subscription, function(err, res) {
           processUnsub();
         });
+      });
+
+      subscription.on('error', function(error) {
+        console.log(error);
+        process.exit(1);
       });
 
       // publish messages to both channels
