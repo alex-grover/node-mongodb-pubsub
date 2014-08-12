@@ -8,14 +8,14 @@ An example driver to be used with Node.js in conjunction with [10gen-interns/pub
 <!--
 To install the latest version from NPM, run:
 
-```javascript
+```
 npm install mongodb-pubsub
 ```
 -->
 
 To install from source:
 
-```shell
+```
 git clone git@github.com:ajgrover/node-mongodb-pubsub.git
 cd node-mongodb-pubsub
 npm install
@@ -66,7 +66,7 @@ Subscribes to a channel using prefix matching. TODO: document subscription behav
 
 Signature:
 
-```javascript
+```
 mongoClient.subscribe(channel, callback);
 ```
 
@@ -104,7 +104,7 @@ Unsubscribes from a given subscription.
 
 Signature:
 
-```javascript
+```
 mongoClient.unsubscribe(subscription, [callback]);
 ```
 
