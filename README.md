@@ -155,4 +155,4 @@ For performance, the driver pools all subscriptions on each MongoClient into a s
 
 If you need fine-grained control over how long each subscription waits on the server, you must open multiple MongoClients and then set the pollLength property on each one.
 
-# TODO: filters and projections
+# TODO: implement and document filters and projections
