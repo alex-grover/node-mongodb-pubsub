@@ -61,7 +61,8 @@ Arguments:
 
 ## Subscribe
 
-Subscribes to a channel using prefix matching. TODO: document subscription behavior <!--See the [documentation on subscribing](https://github.com/10gen-interns/pubsub/blob/master/README.md#Subscribing) for more information.-->
+Subscribes to a channel using prefix matching. TODO: document subscription behavior
+<!--See the [documentation on subscribing](https://github.com/10gen-interns/pubsub/blob/master/README.md#Subscribing) for more information.-->
 
 Signature:
 
