@@ -3,7 +3,7 @@ MongoDB Node.js Driver + Pub/Sub
 
 An example driver to be used with Node.js in conjunction with [10gen-interns/pubsub](https://github.com/10gen-interns/pubsub). This repo provides a wrapper around the [MongoDB Node.js Driver](https://github.com/mongodb/node-mongodb-native).
 
-## Installation
+# Installation
 
 <!--
 To install the latest version from NPM, run:
@@ -21,7 +21,7 @@ cd node-mongodb-pubsub
 npm install
 ```
 
-## Usage
+# Usage
 
 - To be updated
 
@@ -39,11 +39,11 @@ mongoClient.open(function(err, mongoClient) {
 });
 ```
 
-## API Documentation
+# API Documentation
 
 Three basic methods are provided to interact with MongoDB's Pub/Sub system: `publish`, `subscribe`, and `unsubscribe`.
 
-### Publish
+## Publish
 
 The publish command sends a document to the channel specified.
 
@@ -59,9 +59,9 @@ Arguments:
 - `document` The document to publish. Must be a JavaScript Object.
 - `callback` Optional. Takes the form `function(err, res)`.
 
-### Subscribe
+## Subscribe
 
-Subscribes to a channel using prefix matching. TODO: document subscription behavior<!--See the [documentation on subscribing](https://github.com/10gen-interns/pubsub/blob/master/README.md#Subscribing) for more information.-->
+Subscribes to a channel using prefix matching. TODO: document subscription behavior <!--See the [documentation on subscribing](https://github.com/10gen-interns/pubsub/blob/master/README.md#Subscribing) for more information.-->
 
 Signature:
 
@@ -74,7 +74,7 @@ Arguments:
 - `channel` The channel name/prefix to susbcribe to. Must be a string.
 - `callback` Required. Takes the form `function(err, subscription)`.
 
-#### Subscriptions
+### Subscriptions
 
 The `subscribe` command returns a subscription object which automatically handles polling. It emits the following events:
 
@@ -97,7 +97,7 @@ mongoClient.subscribe('channel', function(err, subscription) {
 });
 ```
 
-### Unsubscribe
+## Unsubscribe
 
 Unsubscribes from a given subscription.
 
