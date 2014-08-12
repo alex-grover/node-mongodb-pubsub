@@ -113,4 +113,15 @@ Arguments:
 - `subscription` The subscription object to unsubscribe from. Must be an object returned by the callback of the `subscribe` command.
 - `callback` Optional. Takes the form `function(err, res)`.
 
-# TODO: timeout option
+# Other options
+
+## Poll timeout
+
+Under the hood, MongoDB uses long polling to implement the Publish/Subscribe system. However, the driver handles the mechanics of polling the database and getting the correct messages to the correct subscriptions. TODO: document options and behavior of poll command
+<!-- For more information, please see the [documentation on poll options](https://github.com/10gen-interns/pubsub/blob/master/README.md#Polling). -->
+
+For performance, the driver pools all subscriptions on each MongoClient into a single poll database command. Each MongoClient exposes a property `MongoClient.pollLength` which determines the maximum time (in milliseconds) that a poll will spend waiting on the server if there are no messages available. If not set explicitly, the default is 10 minutes (the maximum allowed by the server).
+
+If you need fine-grained control over how long each subscription waits on the server, you must open multiple MongoClients and then set the pollLength property on each one.
+
+# TODO: filters and projections
