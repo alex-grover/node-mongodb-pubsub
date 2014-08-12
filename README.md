@@ -49,7 +49,7 @@ The publish command sends a document to the channel specified.
 
 Signature:
 
-```javascript
+```
 mongoClient.publish(channel, document, [callback]);
 ```
 
