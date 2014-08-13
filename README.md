@@ -92,19 +92,22 @@ Arguments:
 
 ## Subscribe
 
-Subscribes to a channel using prefix matching. TODO: document subscription behavior
+Subscribes to a channel using prefix matching. TODO: document subscription matching behavior
 <!--See the [documentation on subscribing](https://github.com/10gen-interns/pubsub/blob/master/README.md#Subscribing) for more information.-->
 
 Signature:
 
 ```
-mongoClient.subscribe(channel, callback);
+mongoClient.subscribe(channel, [options], callback);
 ```
 
 Arguments:
 
 - `channel` The channel name/prefix to susbcribe to. Must be a string.
+- `options` Optional. Used to specify a filter and/or projection for the subscription.
 - `callback` Required. Takes the form `function(err, subscription)`.
+
+The optional `options` object recognizes the fields `filter` and `projection`. They can be used together or independently of each other. The values for these fields must be objects and take the same syntax as the query and projections fields of a read command. See [here](http://docs.mongodb.org/manual/tutorial/query-documents/) for documentation on filter syntax and [here](http://docs.mongodb.org/manual/tutorial/project-fields-from-query-results/) for documentation on projection syntax.
 
 ### Subscriptions
 
