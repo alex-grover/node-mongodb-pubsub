@@ -107,6 +107,8 @@ Arguments:
 - `options` Optional. Used to specify a filter and/or projection for the subscription.
 - `callback` Required. Takes the form `function(err, subscription)`.
 
+### Filters and Projections
+
 The optional `options` object recognizes the fields `filter` and `projection`. They can be used together or independently of each other. The values for these fields must be objects and take the same syntax as the query and projections fields of a read command. See [here](http://docs.mongodb.org/manual/tutorial/query-documents/) for documentation on filter syntax and [here](http://docs.mongodb.org/manual/tutorial/project-fields-from-query-results/) for documentation on projection syntax.
 
 ### Subscriptions
@@ -158,4 +160,4 @@ For performance, the driver pools all subscriptions on each MongoClient into a s
 
 If you need fine-grained control over how long each subscription waits on the server, you must open multiple MongoClients and then set the pollLength property on each one.
 
-# TODO: implement and document filters and projections
+# TODO: implement and document database event wrapper methods
