@@ -109,7 +109,7 @@ Arguments:
 
 ### Filters and Projections
 
-The optional `options` object recognizes the fields `filter` and `projection`. They can be used together or independently of each other. The values for these fields must be objects and take the same syntax as the query and projections fields of a read command. See [here](http://docs.mongodb.org/manual/tutorial/query-documents/) for documentation on filter syntax and [here](http://docs.mongodb.org/manual/tutorial/project-fields-from-query-results/) for documentation on projection syntax.
+The optional `options` object recognizes the fields `filter` and `projection`. TODO: document behavior of filters and projections in pubsub. <!-- See [here]() for documentation about the behavior of filters and projections on subscriptions. --> They can be used together or independently of each other. The values for these fields must be objects and take the same syntax as the query and projections fields of a read command. See [here](http://docs.mongodb.org/manual/tutorial/query-documents/) for documentation on filter syntax and [here](http://docs.mongodb.org/manual/tutorial/project-fields-from-query-results/) for documentation on projection syntax.
 
 ### Subscriptions
 
