@@ -161,4 +161,6 @@ For performance, the driver pools all subscriptions on each DB connection into a
 
 If you need fine-grained control over how long each subscription waits on the server, you must open multiple DB connections and then set the pollLength property on each one.
 
+## Database Event Notifications
+
 # TODO: implement and document database event wrapper methods
