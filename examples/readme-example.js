@@ -1,12 +1,10 @@
-var mongo = require('../index.js');
+var MongoClient = require('../index.js').MongoClient;
 
-// get an instance of MongoClient
-var mongoClient = new mongo.MongoClient(new mongo.Server('localhost', 27017));
-mongoClient.open(function(err, mongoClient) {
-  console.log('Opened a MongoClient connection.');
+MongoClient.connect('mongodb://localhost:27017', function(err, db) {
+  console.log('Opened a connection.');
 
   // now you can publish, subscribe, and unsubscribe
-  mongoClient.subscribe('test', function(err, subscription) {
+  db.subscribe('test', function(err, subscription) {
     console.log('Subscribed to \'test\'.');
 
     // register event handlers on subscription object
@@ -17,14 +15,14 @@ mongoClient.open(function(err, mongoClient) {
                   ': ' + JSON.stringify(message.data, null, 2));
 
       // unsubscribe after receiving a single message.
-      mongoClient.unsubscribe(subscription, function(err, res) {
+      db.unsubscribe(subscription, function(err, res) {
         console.log('Unsubscribed. All done!');
         process.exit(0);
       });
     });
 
     // publish a message when the subscriber is ready
-    mongoClient.publish('test', {hello: 'world'}, function(err, res) {
+    db.publish('test', {hello: 'world'}, function(err, res) {
       console.log('Published message.');
     });
 
@@ -33,7 +31,7 @@ mongoClient.open(function(err, mongoClient) {
 });
 
 // Output:
-// - Opened a MongoClient connection.
+// - Opened a connection.
 // - Subscribed to 'test'.
 // - Published message.
 // - Received message. test: {

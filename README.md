@@ -24,15 +24,13 @@ npm install
 # Usage
 
 ```javascript
-var mongo = require('mongodb-pubsub');
+var MongoClient = require('../index.js').MongoClient;
 
-// get an instance of MongoClient
-var mongoClient = new mongo.MongoClient(new mongo.Server('localhost', 27017));
-mongoClient.open(function(err, mongoClient) {
-  console.log('Opened a MongoClient connection.');
+MongoClient.connect('mongodb://localhost:27017', function(err, db) {
+  console.log('Opened a connection.');
 
   // now you can publish, subscribe, and unsubscribe
-  mongoClient.subscribe('test', function(err, subscription) {
+  db.subscribe('test', function(err, subscription) {
     console.log('Subscribed to \'test\'.');
 
     // register event handlers on subscription object
@@ -43,14 +41,14 @@ mongoClient.open(function(err, mongoClient) {
                   ': ' + JSON.stringify(message.data, null, 2));
 
       // unsubscribe after receiving a single message.
-      mongoClient.unsubscribe(subscription, function(err, res) {
+      db.unsubscribe(subscription, function(err, res) {
         console.log('Unsubscribed. All done!');
         process.exit(0);
       });
     });
 
     // publish a message when the subscriber is ready
-    mongoClient.publish('test', {hello: 'world'}, function(err, res) {
+    db.publish('test', {hello: 'world'}, function(err, res) {
       console.log('Published message.');
     });
 
@@ -59,13 +57,14 @@ mongoClient.open(function(err, mongoClient) {
 });
 
 // Output:
-// - Opened a MongoClient connection.
+// - Opened a connection.
 // - Subscribed to 'test'.
 // - Published message.
 // - Received message. test: {
 // -   "hello": "world"
 // - }
 // - Unsubscribed. All done!
+
 ```
 
 See `examples/basic.js` for a more in depth example with 2 subscriptions.
@@ -81,7 +80,7 @@ The publish command sends a document to the channel specified.
 Signature:
 
 ```
-mongoClient.publish(channel, document, [callback]);
+db.publish(channel, document, [callback]);
 ```
 
 Arguments:
@@ -98,7 +97,7 @@ Subscribes to a channel using prefix matching. TODO: document subscription match
 Signature:
 
 ```
-mongoClient.subscribe(channel, [options], callback);
+db.subscribe(channel, [options], callback);
 ```
 
 Arguments:
@@ -123,7 +122,7 @@ The `subscribe` command returns a subscription object which automatically handle
 Example:
 
 ```javascript
-mongoClient.subscribe('channel', function(err, subscription) {
+db.subscribe('channel', function(err, subscription) {
   if (err) // handle subscribe error
 
   subscription.on('message', function(message) {
@@ -143,7 +142,7 @@ Unsubscribes from a given subscription.
 Signature:
 
 ```
-mongoClient.unsubscribe(subscription, [callback]);
+db.unsubscribe(subscription, [callback]);
 ```
 
 Arguments:
@@ -158,8 +157,8 @@ Arguments:
 Under the hood, MongoDB uses long polling to implement the Publish/Subscribe system. However, the driver handles the mechanics of polling the database and getting the correct messages to the correct subscriptions. TODO: document options and behavior of poll command
 <!-- For more information, please see the [documentation on poll options](https://github.com/10gen-interns/pubsub/blob/master/README.md#Polling). -->
 
-For performance, the driver pools all subscriptions on each MongoClient into a single poll database command. Each MongoClient exposes a property `MongoClient.pollLength` which determines the maximum time (in milliseconds) that a poll will spend waiting on the server if there are no messages available. If not set explicitly, the default is 10 minutes (the maximum allowed by the server).
+For performance, the driver pools all subscriptions on each DB connection into a single poll database command. Each DB exposes a property `db.pollLength` which determines the maximum time (in milliseconds) that a poll will spend waiting on the server if there are no messages available. If not set explicitly, the default is 10 minutes (the maximum allowed by the server).
 
-If you need fine-grained control over how long each subscription waits on the server, you must open multiple MongoClients and then set the pollLength property on each one.
+If you need fine-grained control over how long each subscription waits on the server, you must open multiple DB connections and then set the pollLength property on each one.
 
 # TODO: implement and document database event wrapper methods

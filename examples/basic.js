@@ -1,18 +1,17 @@
-var mongo = require('../index.js');
+var MongoClient = require('../index.js').MongoClient;
 
-var mongoClient = new mongo.MongoClient(new mongo.Server('localhost', 27017));
-mongoClient.open(function(err, mongoClient) {
+MongoClient.connect('mongodb://localhost:27017', function(err, db) {
   if (err) {
     console.log(err);
     process.exit(1);
   }
 
-  issueFirstSubscription();
+  issueFirstSubscription(db);
 });
 
-var issueFirstSubscription = function() {
+var issueFirstSubscription = function(db) {
   // issue first subscribe
-  mongoClient.subscribe('channel', function(err, subscription) {
+  db.subscribe('channel', function(err, subscription) {
     if (err) {
       console.log(err);
       process.exit(1);
@@ -21,7 +20,7 @@ var issueFirstSubscription = function() {
     // register message handler
     subscription.on('message', function(message) {
       console.log(JSON.stringify(message, null, 2));
-      mongoClient.unsubscribe(subscription, function(err, res) {
+      db.unsubscribe(subscription, function(err, res) {
         processUnsub();
       });
     });
@@ -32,13 +31,13 @@ var issueFirstSubscription = function() {
       process.exit(1);
     });
 
-    issueSecondSubscription();
+    issueSecondSubscription(db);
   });
 }
 
-var issueSecondSubscription = function() {
+var issueSecondSubscription = function(db) {
   // issue second subscribe
-  mongoClient.subscribe('test', function(err, subscription) {
+  db.subscribe('test', function(err, subscription) {
     if (err) {
       console.log(err);
       process.exit(1);
@@ -47,7 +46,7 @@ var issueSecondSubscription = function() {
     // register message handler
     subscription.on('message', function(message) {
       console.log(JSON.stringify(message, null, 2));
-      mongoClient.unsubscribe(subscription, function(err, res) {
+      db.unsubscribe(subscription, function(err, res) {
         processUnsub();
       });
     });
@@ -58,14 +57,14 @@ var issueSecondSubscription = function() {
       process.exit(1);
     });
   
-    publishMessages();
+    publishMessages(db);
   });
 }
 
-var publishMessages = function() {
+var publishMessages = function(db) {
   // publish messages to both channels
-  mongoClient.publish('channel', {hello: 'world'});
-  mongoClient.publish('test', {another: 'message'});
+  db.publish('channel', {hello: 'world'});
+  db.publish('test', {another: 'message'});
 }
 
 // only exit after messages have been received on both channels
