@@ -179,7 +179,7 @@ Arguments:
 
 Event format:
 
-```json
+```javascript
 {
   namespace: 'foo.bar',
   type: ['insert', 'update', 'remove'],
