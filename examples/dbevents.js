@@ -1,3 +1,5 @@
+// make sure to start a server with 'mongod --setParameter dbevents=1'
+
 var MongoClient = require('../index.js').MongoClient;
 
 var count = 0;
@@ -20,3 +22,16 @@ MongoClient.connect('mongodb://localhost:27017/foo', function(err, db) {
   });
 
 });
+
+// Output:
+// - { namespace: 'foo.bar',
+// -   type: 'insert',
+// -   doc: { _id: ..., a: 1 } }
+// - { namespace: 'foo.bar',
+// -   type: 'update',
+// -   doc:
+// -    { old: { _id: ..., a: 1 },
+// -      new: { _id: ..., a: 2 } } }
+// - { namespace: 'foo.bar',
+// -   type: 'remove',
+// -   doc: { _id: ..., a: 2 } }

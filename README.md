@@ -161,6 +161,30 @@ For performance, the driver pools all subscriptions on each DB connection into a
 
 If you need fine-grained control over how long each subscription waits on the server, you must open multiple DB connections and then set the pollLength property on each one.
 
-## Database Event Notifications
+# Database Event Notifications
 
-# TODO: document database event wrapper methods
+This driver provides easy access to database event notifications. Both the DB and Collection objects expose a `watch` method that takes a callback to handle database change events. See `examples/dbevents.js` for example usage.
+
+Signature:
+
+```
+db.watch([type], callback);
+db.collection('foo').watch([type], callback);
+```
+
+Arguments:
+
+- `type` Optional. Valid options are 'insert', 'update', and 'remove'. Specifies the type of database events to watch for.
+- `callback` Required. Called whenever a database event matching the parameters given occurs. Takes the form `function(err, event)`.
+
+Event format:
+
+```json
+{
+  namespace: 'foo.bar',
+  type: ['insert', 'update', 'remove'],
+  doc: { ... }
+}
+```
+
+If the event is an update, doc has 2 subdocuments: old and new, with the contents of the document before and after the update.

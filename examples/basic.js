@@ -19,7 +19,7 @@ var issueFirstSubscription = function(db) {
 
     // register message handler
     subscription.on('message', function(message) {
-      console.log(JSON.stringify(message, null, 2));
+      console.dir(message);
       db.unsubscribe(subscription, function(err, res) {
         processUnsub();
       });
@@ -45,7 +45,7 @@ var issueSecondSubscription = function(db) {
 
     // register message handler
     subscription.on('message', function(message) {
-      console.log(JSON.stringify(message, null, 2));
+      console.dir(message);
       db.unsubscribe(subscription, function(err, res) {
         processUnsub();
       });
@@ -76,3 +76,11 @@ var processUnsub = function(){
     shouldExit = true;
   }
 }
+
+// Output:
+// - { subscription: '...',
+// -   channel: 'channel',
+// -   data: { hello: 'world' } }
+// - { subscription: '...',
+// -   channel: 'test',
+// -   data: { another: 'message' } }
