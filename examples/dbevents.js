@@ -4,7 +4,9 @@ var count = 0;
 
 MongoClient.connect('mongodb://localhost:27017/foo', function(err, db) {
   
-  db.watch(function(change) {
+  db.collection('bar').watch(function(err, change) {
+    if (err) throw err
+
     console.dir(change);
     if (change.type === 'remove') {
       process.exit(0);

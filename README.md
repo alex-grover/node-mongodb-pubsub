@@ -163,4 +163,4 @@ If you need fine-grained control over how long each subscription waits on the se
 
 ## Database Event Notifications
 
-# TODO: implement and document database event wrapper methods
+# TODO: document database event wrapper methods
