@@ -1,4 +1,4 @@
-// make sure to start a server with 'mongod --setParameter dbevents=1'
+// make sure to start a server with 'mongod --setParameter publishDataEvents'
 
 var MongoClient = require('../index.js').MongoClient;
 
