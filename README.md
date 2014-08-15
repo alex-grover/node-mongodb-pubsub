@@ -24,7 +24,7 @@ npm install
 # Usage
 
 ```javascript
-var MongoClient = require('../index.js').MongoClient;
+var MongoClient = require('mongodb-pubsub').MongoClient;
 
 MongoClient.connect('mongodb://localhost:27017', function(err, db) {
   console.log('Opened a connection.');
