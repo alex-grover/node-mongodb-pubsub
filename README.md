@@ -1,7 +1,7 @@
 MongoDB Node.js Driver + Pub/Sub
 ================================
 
-An example driver to be used with Node.js in conjunction with [10gen-interns/pubsub](https://github.com/10gen-interns/pubsub). This repo provides a wrapper around the [MongoDB Node.js Driver](https://github.com/mongodb/node-mongodb-native).
+An example driver to be used with Node.js in conjunction with [mongodbinc-interns/pubsub](https://github.com/mongodbinc-interns/pubsub). This repo provides a wrapper around the [MongoDB Node.js Driver](https://github.com/mongodb/node-mongodb-native).
 
 # Installation
 
